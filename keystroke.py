@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Feb  1 14:53:20 2020
+Created on Sun Feb  2 07:51:09 2020
 
-@author: Student
+@author: marks
 """
+
 
 from pynput import keyboard
 
@@ -109,8 +110,21 @@ COMBINATIONS = [
 
 current = set()
 
+code_text = ''
+for i in range(1,7):
+    fname = 'egcode' + str(i) + '.txt'
+    with open(fname) as f:
+        code_text += f.read() + '\n\n'
+indx = 0
+
 def execute():
-    print("detected hotkey")
+    global indx
+    if (indx+3) <= (len(code_text)):
+        print(code_text[indx:indx+3], end='')
+        indx += 3
+    else:
+        print(code_text[indx:len(code_text)])
+        indx = 0
     
 def on_press(key):
     if any([key in COMBO for COMBO in COMBINATIONS]):
@@ -130,5 +144,4 @@ def on_release(key):
 
 with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
     listener.join()
-    
     
